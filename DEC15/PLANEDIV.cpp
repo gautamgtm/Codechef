@@ -23,7 +23,7 @@ int main()
 			//Take Input
 			ll a,b,c;
 			scanf("%ld %ld %ld", &a, &b, &c);
-			double s,r;
+			double s,r; 
 			if (b!=0)
 			{
 				s = double(a)/double(b); //Slope != Infinite
