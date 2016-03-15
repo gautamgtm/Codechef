@@ -1,4 +1,4 @@
-//LUCKYSTR
+//BINTREE
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -43,35 +43,45 @@ using namespace std;
 
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	cin.sync_with_stdio(0);
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		int i,j;
+		scanf("%d %d", &i, &j);
+
+		int h1 = floor(double(log(i)/log(2)));
+		int h2 = floor(double(log(j)/log(2)));
+	
+		VI node1, node2;
+		while(i)
 		{
-			printf("Good\n");
-			continue;
+			node1.PB(i);
+			i /= 2;
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
+		while(j)
 		{
-			if(str.find(Lucky[i]) != string::npos)
+			node2.PB(j);
+			j /= 2;
+		}
+
+		int common=-1;
+		int m=node1.size()-1, n=node2.size()-1;
+		while(true)
+		{
+			if(node1[m] == node2[n] && m>=0 && n>=0)
 			{
-				printf("Good\n");
-				flag = true;
+				m--;n--;common++;
+			}
+			else
+			{
 				break;
 			}
 		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+		int distance = h1 + h2 - 2*common;
+
+		printf("%d\n", distance);
 	}
 
 }

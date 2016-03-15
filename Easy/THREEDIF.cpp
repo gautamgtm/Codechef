@@ -1,4 +1,4 @@
-//LUCKYSTR
+//THREEDIF
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -41,37 +41,31 @@ using namespace std;
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
 
+ULL solve(ULL a, ULL b, ULL c)
+{
+	ULL ans = a%MOD;
+	ans = (ans * ((b-1)%MOD))%MOD;
+	ans = (ans * ((c-2)%MOD))%MOD;	
+	return ans%MOD;
+}
+
 int main()
 {
 	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
-		{
-			printf("Good\n");
-			continue;
-		}
-		bool flag = false;
-		FOR(i,0,k-1)
-		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
-		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+		ULL A[3];
+		cin>>A[0]>>A[1]>>A[2];
+
+		sort(A,A+3);
+		ULL a = A[0], b = A[1], c = A[2];
+
+		ULL ans = solve(a,b,c);
+		//ULL ans=((((a%1000000007)*((b-1)%1000000007))%1000000007)*((c-2)%1000000007))%1000000007;
+
+		cout<<ans<<endl;
 	}
 
 }

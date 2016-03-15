@@ -1,4 +1,4 @@
-//LUCKYSTR
+//RRSUM
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -43,35 +43,21 @@ using namespace std;
 
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	cin.sync_with_stdio(0);
+	LL n,m;
+	scanf("%Ld %Ld", &n, &m);
+	while(m--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		LL num;
+		scanf("%Ld", &num);
+		if(num < n+2)
 		{
-			printf("Good\n");
+			printf("0\n");
 			continue;
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
-		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
-		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+			
+		LL ans = n - abs(2*n+1 - num);
+		printf("%Ld\n", ans);
 	}
 
 }

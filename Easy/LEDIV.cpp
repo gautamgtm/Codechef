@@ -1,4 +1,4 @@
-//LUCKYSTR
+//LEDIV
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -40,38 +40,63 @@ using namespace std;
 #define PI 3.14159265358979323846
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
+#define lmt 100000
+
+int smallestDivisor[lmt + 5];
+
+int gcd(int a, int b)
+{
+	if(b == 0)
+		return a;
+	else
+		return gcd(b, a%b);
+}
+
+void sieve()
+{
+	FOR(i,0,lmt)
+	{
+		smallestDivisor[i] = i;
+	}
+	for(int i=2; i<=lmt; i+=2)
+	{
+		smallestDivisor[i] = 2;
+	}
+	for(int i=3; i<=lmt; i+=2)
+	{
+		if(smallestDivisor[i] == i)
+		{
+			for(int j=i; j<=lmt; j += i)
+			{
+				smallestDivisor[j] = min(i, smallestDivisor[j]);
+			}
+		}
+	}
+}
 
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	cin.sync_with_stdio(0);
+	sieve();
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		int n;
+		scanf("%d", &n);
+		int ans;
+		scanf("%d", &ans);
+		FOR(i,0,n-2)
 		{
-			printf("Good\n");
-			continue;
+			int temp;
+			scanf("%d", &temp);
+			ans = gcd(ans, temp);
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
-		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
-		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
-	}
 
+		if(ans<=1)
+			printf("-1\n");
+		else
+			printf("%d\n", smallestDivisor[ans]);
+			
+	}
 }

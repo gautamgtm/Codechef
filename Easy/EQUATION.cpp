@@ -1,4 +1,4 @@
-//LUCKYSTR
+//EQUATION
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -41,37 +41,38 @@ using namespace std;
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
 
+LL solve(LL n)
+{
+	if(n<0)
+		return 0;
+	else
+		return (n+1)*(n+2)*(n+3)/6;
+}
+
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	cin.sync_with_stdio(0);
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		LL n,a,b,c;
+		scanf("%Ld %Ld %Ld %Ld", &n, &a, &b, &c);
+
+		//LL ans = solve(n) - solve(n-a-1)- solve(n-b-1) - solve(n-c-1) + solve(n-a-b-2) + solve(n-b-c-2) + solve(n-c-a-2) - solve(n-a-b-c-3);
+		LL ans = 0;
+		FOR(i,0,a)
 		{
-			printf("Good\n");
-			continue;
-		}
-		bool flag = false;
-		FOR(i,0,k-1)
-		{
-			if(str.find(Lucky[i]) != string::npos)
+			FOR(j,0,b)
 			{
-				printf("Good\n");
-				flag = true;
-				break;
+				LL temp = n-i-j;
+				if(temp < 0)
+					break;
+
+				 ans += min(temp,c)+1;
 			}
 		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+		printf("%Ld\n", ans);
 	}
 
 }

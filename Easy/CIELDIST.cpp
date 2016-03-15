@@ -1,4 +1,4 @@
-//LUCKYSTR
+//CIELDIST
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -43,35 +43,25 @@ using namespace std;
 
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	cin.sync_with_stdio(0);
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
-		{
-			printf("Good\n");
-			continue;
-		}
-		bool flag = false;
-		FOR(i,0,k-1)
-		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
-		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+		int dist1, dist2, dist;
+		scanf("%d %d %d", &dist1, &dist2, &dist);
+
+		if(dist >= dist1 + dist2)
+			printf("%d\n", dist-dist1-dist2);
+		else
+		if(dist1 >= dist + dist2)
+			printf("%d\n", dist1-dist2-dist);
+		else
+		if(dist2 >= dist + dist1)
+			printf("%d\n", dist2-dist1-dist);
+		else
+			printf("0\n");
+			
 	}
 
 }

@@ -1,4 +1,4 @@
-//LUCKYSTR
+//ATTIC
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -43,35 +43,45 @@ using namespace std;
 
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	cin.sync_with_stdio(0);
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		char path[1000005];
+		scanf("%s", path);
+		int pathsize = 0;
+		FOR(i,0,1000005)
 		{
-			printf("Good\n");
-			continue;
-		}
-		bool flag = false;
-		FOR(i,0,k-1)
-		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
+			if(path[i] == '\0')
 				break;
+			pathsize++;
+		}
+		int level = 0, start = 1, day = 0;
+		while(start < pathsize-1 )
+		{
+			if(path[start] == '#')
+				start++;
+			else
+			{
+				int counter= start;
+				start++;
+				while(path[start] != '#' && start < pathsize-1)
+				{
+					//length++;
+					start++;
+				}
+				counter = start-counter;
+				if(counter>level)
+				{
+					level = counter;
+					day++;
+				}
 			}
 		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+
+		printf("%d\n", day);
+
 	}
 
 }

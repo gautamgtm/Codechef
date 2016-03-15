@@ -1,4 +1,4 @@
-//LUCKYSTR
+//ROWCOLOP
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -43,35 +43,27 @@ using namespace std;
 
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
+	cin.sync_with_stdio(0);
+	int n,q;
+	scanf("%d %d", &n, &q);
+	int row[n]={}, column[n]={};
+	while(q--)
+	{
+		char str[10]; int a,b;
+		scanf("%s %d %d", str, &a, &b);
+		if(str[0] == 'R')
+			row[a-1] += b;
+		else
+			column[a-1] += b;
+	}
+
+	int maxRow = 0, maxColumn = 0;
 	FOR(i,0,n-1)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
-		{
-			printf("Good\n");
-			continue;
-		}
-		bool flag = false;
-		FOR(i,0,k-1)
-		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
-		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+		maxRow = max(maxRow,row[i]);
+		maxColumn = max(maxColumn,column[i]);
 	}
+	LL ans = (LL)maxRow + (LL)maxColumn;
+	printf("%Ld\n", ans);
 
 }

@@ -1,4 +1,4 @@
-//LUCKYSTR
+//ANUARM
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -43,35 +43,30 @@ using namespace std;
 
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	cin.sync_with_stdio(0);
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		int n,m;
+		scanf("%d %d", &n, &m);
+		int minm = INF, maxm = -1;
+		FOR(i,0,m-1)
 		{
-			printf("Good\n");
-			continue;
+			int temp;
+			scanf("%d", &temp);
+
+			minm = min(minm, temp);
+			maxm = max(maxm, temp);
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
+			
+		FOR(i,0,n-1)
 		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
+			int ans = max(abs(i-maxm), abs(i-minm));
+			printf("%d ", ans);
 		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+		printf("\n");
+
 	}
 
 }

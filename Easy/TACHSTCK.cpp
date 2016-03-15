@@ -1,4 +1,4 @@
-//LUCKYSTR
+//TACHSTCK
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -43,35 +43,27 @@ using namespace std;
 
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
+	cin.sync_with_stdio(0);
+	int n,d;
+	scanf("%d %d", &n, &d);
+	int A[n];
 	FOR(i,0,n-1)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
-		{
-			printf("Good\n");
-			continue;
-		}
-		bool flag = false;
-		FOR(i,0,k-1)
-		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
-		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+		scanf("%d", &A[i]);
 	}
 
+	sort(A,A+n);
+
+	int ans = 0, start = 1;
+	while(start < n)
+	{
+		if(A[start]-A[start-1] <= d)
+		{
+			ans++;
+			start++;
+		}
+		start++;
+	}
+
+	printf("%d\n", ans);
 }

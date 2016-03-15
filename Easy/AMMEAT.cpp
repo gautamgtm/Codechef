@@ -1,4 +1,4 @@
-//LUCKYSTR
+//AMMEAT
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -43,35 +43,31 @@ using namespace std;
 
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	cin.sync_with_stdio(0);
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		LL n,m;
+		scanf("%Ld %Ld", &n, &m);
+		LL A[n];
+		FOR(i,0,n-1)
+			scanf("%Ld", &A[i]);
+
+		sort(A,A+n);
+		reverse(A,A+n);
+
+		int idx = 0;
+		while(m>0 && idx < n)
 		{
-			printf("Good\n");
-			continue;
+			m -= A[idx];
+			idx++;
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
-		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
-		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+
+		if(m <= 0)
+			printf("%d\n", idx);
+		else
+			printf("-1\n");
 	}
 
 }

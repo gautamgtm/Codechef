@@ -1,4 +1,4 @@
-//LUCKYSTR
+//POINTS
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -44,34 +44,40 @@ using namespace std;
 int main()
 {
 	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		int n;
+		cin>>n;
+		vector<PII> point;
+		FOR(i,0,n-1)
 		{
-			printf("Good\n");
-			continue;
+			int x,y;
+			cin>>x>>y;
+			point.PB(MP(x,y));
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
+		
+		sort(point.begin(), point.end(), [](auto &left, auto &right) 
 		{
-			if(str.find(Lucky[i]) != string::npos)
+			if(left.first < right.first)
+				return 1;
+    		if(left.first == right.first)
 			{
-				printf("Good\n");
-				flag = true;
-				break;
+				if(left.second > right.second)
+					return 1;
 			}
-		}
-		if(!flag)
+			return 0;
+		});
+
+		double distance = 0.0;
+		FOR(i,1,n-1)
 		{
-			printf("Bad\n");
+			distance += sqrt( (point[i].first - point[i-1].first)*(point[i].first - point[i-1].first) + (point[i].second - point[i-1].second)*(point[i].second - point[i-1].second) );
 		}
+
+		printf("%.2lf\n", distance);
+
 	}
 
 }

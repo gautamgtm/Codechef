@@ -1,4 +1,4 @@
-//LUCKYSTR
+//ARRANGE
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -44,34 +44,37 @@ using namespace std;
 int main()
 {
 	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
+		int k;
 		string str;
-		cin>>str;
-		if(str.size()>=47)
+		cin>>k>>str;
+
+		string ans = str;
+
+		FOR(i,1,ans.size()-2)
 		{
-			printf("Good\n");
-			continue;
-		}
-		bool flag = false;
-		FOR(i,0,k-1)
-		{
-			if(str.find(Lucky[i]) != string::npos)
+			bool ipt[k]={};
+			int idx = i;
+			FORD(j,k-1,0)
 			{
-				printf("Good\n");
-				flag = true;
-				break;
+				ipt[j] = idx%2;
+				idx /=2;
 			}
+
+			idx = ipt[0];
+			FOR(j,1,k-1)
+			{
+				idx += (1<<j)*ipt[j];
+			}
+
+			ans[i] = str[idx];
 		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+
+		cout<<ans<<endl;
+
 	}
 
 }

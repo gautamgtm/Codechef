@@ -1,4 +1,4 @@
-//LUCKYSTR
+//CHEFA
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -43,35 +43,26 @@ using namespace std;
 
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
-	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+	cin.sync_with_stdio(0);
+	int t;
+	scanf("%d", &t);
+	while(t--)
+	{	
+		int n;
+		scanf("%d", &n);
+		int A[n];
+		FOR(i,0,n-1)
+			scanf("%d", &A[i]);
+
+		sort(A, A+n);
+
+		LL ans = 0;
+		for(int i = n-1; i >= 0; i-=2)
 		{
-			printf("Good\n");
-			continue;
+			ans = ans + (LL)A[i];
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
-		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
-		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+
+		printf("%Ld\n", ans);
 	}
 
 }

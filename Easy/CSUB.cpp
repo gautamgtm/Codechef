@@ -1,4 +1,4 @@
-//LUCKYSTR
+//CSUB
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -43,35 +43,33 @@ using namespace std;
 
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	cin.sync_with_stdio(0);
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		int n;
+		scanf("%d", &n);
+		char A[n+1];
+		scanf("%s", A);
+
+		int Count[n]; LL ans=0;
+		Count[0] = A[0]-48; ans += A[0]-48;
+		FOR(i,1,n-1)
 		{
-			printf("Good\n");
-			continue;
+			Count[i] = Count[i-1] + A[i]-48;
+			ans += A[i]-48;
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
+ 
+		FORD(i,n-1,1)
 		{
-			if(str.find(Lucky[i]) != string::npos)
+			if(A[i] == '1')
 			{
-				printf("Good\n");
-				flag = true;
-				break;
+				ans += Count[i-1];
 			}
 		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+
+		printf("%Ld\n", ans);
 	}
 
 }

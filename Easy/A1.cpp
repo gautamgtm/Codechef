@@ -1,4 +1,4 @@
-//LUCKYSTR
+//A1
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -41,37 +41,35 @@ using namespace std;
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
 
+bool found(int* Notes, int money, int left)
+{
+	if(money == 0)
+		return 1;
+	if(left == 0 and money != 0)
+		return 0;
+
+	if(Notes[left-1] > money)
+		return found(Notes, money, left-1);
+
+	return found(Notes, money-Notes[left-1], left-1) || found(Notes, money, left-1);
+}
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	cin.sync_with_stdio(0);
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
-		{
-			printf("Good\n");
-			continue;
-		}
-		bool flag = false;
-		FOR(i,0,k-1)
-		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
-		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+		int num, m;
+		scanf("%d %d", &num, &m);
+		int Notes[num];
+		FOR(i,0,num-1)
+			scanf("%d", &Notes[i]);
+
+		if(found(Notes, m, num))
+			printf("Yes\n");
+		else
+			printf("No\n");
 	}
 
 }

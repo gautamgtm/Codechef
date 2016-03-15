@@ -1,5 +1,6 @@
-//LUCKYSTR
+//NOLOGIC
 #include <iostream>
+#include <stdio.h>
 #include <cstdio>
 #include <algorithm>
 #include <cstdlib>
@@ -44,34 +45,37 @@ using namespace std;
 int main()
 {
 	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	int t;
+	scanf("%d", &t);
+	getchar();
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		string ques;
+		getline(cin, ques);
+		bool isThere[26]={0};
+		//cout<<ques.size()<<endl;
+		FOR(i,0,ques.size()-1)
 		{
-			printf("Good\n");
-			continue;
+			if(ques[i]>=65 && ques[i]<=90)
+				isThere[ques[i]-65] = 1;
+			else
+			if(ques[i]>=97 && ques[i]<=122)
+				isThere[ques[i]-97] = 1;
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
+	
+		bool found=0;
+		FOR(i,0,25)
 		{
-			if(str.find(Lucky[i]) != string::npos)
+			if(isThere[i] == 0)
 			{
-				printf("Good\n");
-				flag = true;
+				printf("%c\n", i+65);
+				found = 1;
 				break;
 			}
+				
 		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+		if(!found)
+			printf("~\n");
 	}
 
 }

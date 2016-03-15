@@ -1,4 +1,4 @@
-//LUCKYSTR
+//CHEFZOT
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -43,35 +43,25 @@ using namespace std;
 
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
+	cin.sync_with_stdio(0);
+	int n;
+	scanf("%d", &n);
+	int maxLength = 0, length = 0;
 	FOR(i,0,n-1)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		int temp;
+		scanf("%d", &temp);
+		if(temp)
 		{
-			printf("Good\n");
-			continue;
+			length++;
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
+		else
 		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
+			length = 0;
 		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+		maxLength = max(maxLength, length);
 	}
+
+	printf("%d\n", maxLength);
 
 }

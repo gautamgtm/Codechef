@@ -1,4 +1,4 @@
-//LUCKYSTR
+//RRCODE
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -44,34 +44,61 @@ using namespace std;
 int main()
 {
 	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		int n,k,ans;
+		scanf("%d %d %d", &n, &k, &ans);
+		int A[n];
+		FOR(i,0,n-1)
 		{
-			printf("Good\n");
+			scanf("%d", &A[i]);
+		}
+		string opn;
+		cin>>opn;
+
+		if(opn == "AND")
+		{
+			int temp = A[0];
+			FOR(i,1,n-1)
+				temp = temp & A[i];
+
+			if(k)
+				printf("%d\n", ans & temp);
+			else
+				printf("%d\n", ans);
+
 			continue;
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
+
+		if(opn == "OR")
 		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
+			int temp = A[0];
+			FOR(i,1,n-1)
+				temp = temp | A[i];
+
+			if(k)
+				printf("%d\n", ans | temp);
+			else
+				printf("%d\n", ans);
 		}
-		if(!flag)
+
+		if(opn == "XOR")
 		{
-			printf("Bad\n");
+			int temp = A[0];
+			FOR(i,1,n-1)
+				temp = temp ^ A[i];
+
+			if(!k)
+				printf("%d\n", ans);
+			else
+			if(k%2)
+				printf("%d\n", ans ^ temp);
+			else
+				printf("%d\n", ans ^ 0);
 		}
+
 	}
 
 }

@@ -1,4 +1,4 @@
-//LUCKYSTR
+//NAME1
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -44,34 +44,42 @@ using namespace std;
 int main()
 {
 	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		string father, mother;
+		int children;
+		cin>>father>>mother>>children;
+		int parent[26]={}, child[26]={};
+
+		FOR(i,0,father.size()-1)
+			parent[father[i]-97]++;
+		FOR(i,0,mother.size()-1)
+			parent[mother[i]-97]++;
+
+		FOR(i,0,children-1)
 		{
-			printf("Good\n");
-			continue;
+			string temp;
+			cin>>temp;
+			FOR(j,0,temp.size()-1)
+				child[temp[j]-97]++;
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
+
+		bool flag = true;
+		FOR(i,0,25)
 		{
-			if(str.find(Lucky[i]) != string::npos)
+			if(child[i] > parent[i])
 			{
-				printf("Good\n");
-				flag = true;
+				flag = false;
 				break;
 			}
 		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+
+		if(flag)
+			printf("YES\n");
+		else
+			printf("NO\n");
 	}
 
 }

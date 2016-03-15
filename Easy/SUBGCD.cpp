@@ -1,4 +1,4 @@
-//LUCKYSTR
+//SUBGCD
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -41,37 +41,41 @@ using namespace std;
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
 
+int gcd(int a, int b)
+{
+	if(b == 0)
+		return a;
+	else
+		return gcd(b, a%b);
+}
+
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	cin.sync_with_stdio(0);
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		int n;
+		scanf("%d", &n);
+		int A[n];
+		FOR(i,0,n-1)
 		{
-			printf("Good\n");
-			continue;
+			scanf("%d", &A[i]);
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
+
+		int myGCD = A[0];
+		FOR(i,1,n-1)
 		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
+			myGCD = gcd(myGCD, A[i]);
 		}
-		if(!flag)
+
+		if(myGCD != 1)
 		{
-			printf("Bad\n");
+			printf("-1\n");
 		}
+		else
+			printf("%d\n", n);
 	}
 
 }

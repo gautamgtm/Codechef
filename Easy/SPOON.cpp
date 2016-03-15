@@ -1,4 +1,4 @@
-//LUCKYSTR
+//SPOON
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -44,34 +44,93 @@ using namespace std;
 int main()
 {
 	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		int n,m;
+		scanf("%d %d", &n, &m);
+		char matrix[n][m];
+		FOR(i,0,n-1)
 		{
-			printf("Good\n");
+			string str;
+			cin>>str;
+			FOR(j,0,m-1)
+			{
+				if(str[j]>=97 && str[j]<=122)
+					matrix[i][j] = str[j]-97+65;
+				else
+					matrix[i][j] = str[j];
+			}
+		}
+
+		string spoon = "SPOON", found = "There is a spoon!", notFound = "There is indeed no spoon!";
+		bool flag = false;
+
+		if(n<5 && m<5)
+		{
+			cout<<notFound<<endl;
 			continue;
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
+
+		//Search in Row
+		FOR(i,0,n-1)
 		{
-			if(str.find(Lucky[i]) != string::npos)
+			int idx=0, start=0;
+			while(start<m && idx <5)
 			{
-				printf("Good\n");
+				if(matrix[i][start] == spoon[idx])
+				{
+					idx++;start++;
+				}
+				else
+				{
+					if(idx == 0)
+						start++;
+					idx = 0;
+				}
+			}
+			if(idx == 5)
+			{
 				flag = true;
 				break;
 			}
 		}
-		if(!flag)
+
+		if(flag)
 		{
-			printf("Bad\n");
+			cout<<found<<endl;
+			continue;
 		}
+			
+		//Search in Columns
+		FOR(i,0,m-1)
+		{
+			int idx=0, start=0;
+			while(start<n && idx <5)
+			{
+				if(matrix[start][i] == spoon[idx])
+				{
+					idx++;start++;
+				}
+				else
+				{
+					if(idx == 0)
+						start++;
+					idx = 0;
+				}
+			}
+			if(idx == 5)
+			{
+				flag = true;
+				break;
+			}
+		}
+
+		if(flag)
+			cout<<found<<endl;
+		else
+			cout<<notFound<<endl;
 	}
 
 }

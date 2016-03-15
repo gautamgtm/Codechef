@@ -1,4 +1,4 @@
-//LUCKYSTR
+//KINGSHIP
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -40,38 +40,29 @@ using namespace std;
 #define PI 3.14159265358979323846
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
+#define lmt 10000000
 
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	cin.sync_with_stdio(0);
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		LL n;
+		scanf("%Ld", &n);
+		LL minm=lmt+5, sum=0;
+		FOR(i,0,n-1)
 		{
-			printf("Good\n");
-			continue;
+			LL temp;
+			scanf("%Ld", &temp);
+			minm = min(minm, temp);
+			sum += temp;
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
-		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
-		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+
+		LL ans = (sum-minm)*minm;
+
+		printf("%Ld\n", ans);
 	}
 
 }

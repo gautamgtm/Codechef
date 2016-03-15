@@ -1,4 +1,4 @@
-//LUCKYSTR
+//COMMUTE
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -43,35 +43,30 @@ using namespace std;
 
 int main()
 {
-	//cin.sync_with_stdio(0);
-	int k,n;
-	scanf("%d %d", &k, &n);
-	string Lucky[k];
-	FOR(i,0,k-1)
-		cin>>Lucky[i];
-	FOR(i,0,n-1)
+	cin.sync_with_stdio(0);
+	int t;
+	scanf("%d", &t);
+	while(t--)
 	{
-		string str;
-		cin>>str;
-		if(str.size()>=47)
+		int n;
+		scanf("%d", &n);
+		LL timeJourney=0;
+		FOR(i,0,n-1)
 		{
-			printf("Good\n");
-			continue;
+			int t,d,p;
+			scanf("%d %d %d", &t, &d, &p);
+
+			LL mult;
+			double temp = double(timeJourney - t)/p;
+			if (temp <= 0)
+				mult = 0;
+			else
+				mult = ceil(temp);
+
+			timeJourney += (d + mult*p + t - timeJourney);
 		}
-		bool flag = false;
-		FOR(i,0,k-1)
-		{
-			if(str.find(Lucky[i]) != string::npos)
-			{
-				printf("Good\n");
-				flag = true;
-				break;
-			}
-		}
-		if(!flag)
-		{
-			printf("Bad\n");
-		}
+
+		printf("%Ld\n", timeJourney);
 	}
 
 }
