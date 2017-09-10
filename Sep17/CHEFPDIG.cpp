@@ -46,47 +46,24 @@ using namespace std;
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
 
-set<VI> mySet;
-
-void solve(VI A)
-{
-	int n=A.size();
-	for(int i=0; i<n-1; i++)
-	{
-		if(A[i] && A[i+1])
-		{
-			A[i]--; A[i+1]--;
-			if(i != n-2) A[i+2]++;
-			else A.push_back(1);
-
-			if(mySet.find(A) == mySet.end())
-			{
-				mySet.insert(A);
-				solve(A);
-			}
-
-			A[i]++; A[i+1]++;
-			if(n+1 == A.size()) A.pop_back();
-			else A[i+2]--;
-		}
-	}
-}
-
 int main()
 {
-	cin.sync_with_stdio(0);
-	int t;
-	scanf("%d", &t);
-	while(t--)
-	{
-		int n;
-		scanf("%d", &n);
-		VI A(n);
-		FOR(i,0,n-1) scanf("%d", &A[i]);
-		mySet.clear();
-		solve(A);
-
-		printf("%d\n", (1+mySet.size())%MOD);
-	}
+  //cin.sync_with_stdio(0);
+  int t;
+  scanf("%d", &t);
+  while(t--)
+  {
+    string str, ans;
+    cin>>str;
+    int A[10]={};
+    FOR(i,0,str.length()-1) A[str[i]-'0']++;
+    FOR(i,'A','Z')
+    {
+      int a = (int)i/10, b = (int)i%10;
+      if(a != b && A[a]>0 && A[b]>0) ans += i;
+      if(a == b && A[a]>1) ans += i;
+    }
+    cout<<ans<<endl;
+  }
 
 }

@@ -46,32 +46,6 @@ using namespace std;
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
 
-set<VI> mySet;
-
-void solve(VI A)
-{
-	int n=A.size();
-	for(int i=0; i<n-1; i++)
-	{
-		if(A[i] && A[i+1])
-		{
-			A[i]--; A[i+1]--;
-			if(i != n-2) A[i+2]++;
-			else A.push_back(1);
-
-			if(mySet.find(A) == mySet.end())
-			{
-				mySet.insert(A);
-				solve(A);
-			}
-
-			A[i]++; A[i+1]++;
-			if(n+1 == A.size()) A.pop_back();
-			else A[i+2]--;
-		}
-	}
-}
-
 int main()
 {
 	cin.sync_with_stdio(0);
@@ -79,14 +53,32 @@ int main()
 	scanf("%d", &t);
 	while(t--)
 	{
-		int n;
-		scanf("%d", &n);
-		VI A(n);
-		FOR(i,0,n-1) scanf("%d", &A[i]);
-		mySet.clear();
-		solve(A);
+		int n,k,idx=0;
+		scanf("%d %d", &n, &k);
+		LL A[n];
+		FOR(i,0,n-1) scanf("%Ld", &A[i]);
+		LL ans=0;
 
-		printf("%d\n", (1+mySet.size())%MOD);
+		stack<int> s;
+		while(idx<n)
+		{
+			if(!s.empty() || A[s.top()] < A[idx]) s.push(idx++);
+			else
+			{
+				int tp = s.top();
+				s.pop();
+				LL area = A[tp] * (s.empty() ? idx : idx - s.top()-1);
+				ans = max(area, ans);
+			}
+		}
+		while(!s.empty())
+		{
+			int tp = s.top();
+			s.pop();
+			LL area = A[tp] * (s.empty() ? idx : idx - s.top()-1);
+			ans = max(area, ans);
+		}
+
+		printf("%Ld\n", ans);
 	}
-
 }

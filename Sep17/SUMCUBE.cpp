@@ -46,47 +46,38 @@ using namespace std;
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
 
-set<VI> mySet;
-
-void solve(VI A)
+LL modExp(LL n, LL k)
 {
-	int n=A.size();
-	for(int i=0; i<n-1; i++)
-	{
-		if(A[i] && A[i+1])
-		{
-			A[i]--; A[i+1]--;
-			if(i != n-2) A[i+2]++;
-			else A.push_back(1);
-
-			if(mySet.find(A) == mySet.end())
-			{
-				mySet.insert(A);
-				solve(A);
-			}
-
-			A[i]++; A[i+1]++;
-			if(n+1 == A.size()) A.pop_back();
-			else A[i+2]--;
-		}
-	}
+  LL ans=1;
+  while(k)
+  {
+    if(k%2) ans = (ans * n)%MOD;
+    n = (n * n)%MOD;
+    k = k/2;
+  }
+  return ans%MOD;
 }
 
 int main()
 {
-	cin.sync_with_stdio(0);
-	int t;
-	scanf("%d", &t);
-	while(t--)
-	{
-		int n;
-		scanf("%d", &n);
-		VI A(n);
-		FOR(i,0,n-1) scanf("%d", &A[i]);
-		mySet.clear();
-		solve(A);
-
-		printf("%d\n", (1+mySet.size())%MOD);
-	}
+  cin.sync_with_stdio(0);
+  int t;
+  scanf("%d", &t);
+  while(t--)
+  {
+    LL n,m,k;
+    scanf("%Ld %Ld %Ld", &n, &m, &k);
+    vector<VI> graph(n);
+    FOR(i,0,m-1)
+    {
+      int a,b;
+      scanf("%d %d", &a, &b);
+      a--; b--;
+      graph[a].PB(b);
+      graph[b].PB(a);
+    }
+    if(k==1) printf("%Ld\n", (1LL*m*modExp(2,n-2))%MOD);
+    else printf("1\n");
+  }
 
 }

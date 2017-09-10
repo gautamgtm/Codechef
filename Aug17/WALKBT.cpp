@@ -16,7 +16,6 @@
 #include <time.h>
 #include <climits>
 #include <utility>
-#include <assert.h>
 using namespace std;
 
 #define VI vector <int>
@@ -32,10 +31,6 @@ using namespace std;
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
 #define ABS(x) ((x < 0)?-(x):x)
-#define IN(A, B, C)  (B) <= (A) && (A) <= (C)
-#define AIN(A, B, C) assert(IN(A, B, C))
-#define PRINTV(it,v) for (auto it = v.begin(); it != v.end(); it++) printf("%d ", *it);
-#define PRINTA(A, n) for (auto i = 0; i <= (a); i++) printf("%d ", A[i]);
 
 #define MP make_pair
 #define PB push_back
@@ -46,47 +41,54 @@ using namespace std;
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
 
-set<VI> mySet;
-
-void solve(VI A)
-{
-	int n=A.size();
-	for(int i=0; i<n-1; i++)
-	{
-		if(A[i] && A[i+1])
-		{
-			A[i]--; A[i+1]--;
-			if(i != n-2) A[i+2]++;
-			else A.push_back(1);
-
-			if(mySet.find(A) == mySet.end())
-			{
-				mySet.insert(A);
-				solve(A);
-			}
-
-			A[i]++; A[i+1]++;
-			if(n+1 == A.size()) A.pop_back();
-			else A[i+2]--;
-		}
-	}
-}
-
 int main()
 {
-	cin.sync_with_stdio(0);
+	//cin.sync_with_stdio(0);
 	int t;
 	scanf("%d", &t);
 	while(t--)
 	{
-		int n;
-		scanf("%d", &n);
-		VI A(n);
-		FOR(i,0,n-1) scanf("%d", &A[i]);
-		mySet.clear();
-		solve(A);
+		int n,q;
+		scanf("%d %d", &n, &q);
+		vector<set<string> > Tree(n+1);
+		Tree[0].insert("0");
+		int count = 1;
+		string str, base;
+		FOR(i,0,n-1) str += '0';
+		base = str;
+		while(q--)
+		{
+			string a;
+			cin>>a;
+			if(a == "!")
+			{
+				int x;
+				scanf("%d", &x);
+				if(str[x] == '0') str[x] = '1';
+				else
+				{
+					int i=x;
+					while(str[i] == '1') str[i++] = '0';
+					if(i != n) str[i] = '1';
+				}
+				string s;
+				FOR(i,1,n)
+				{
+					s += '0';
+					if(str[n-i] == '1') s[s.size()-1] = '1';
 
-		printf("%d\n", (1+mySet.size())%MOD);
+					if(Tree[i].find(s) == Tree[i].end())
+					{
+						count++;
+						Tree[i].insert(s);
+					}
+				}
+
+			}
+			else
+				printf("%d\n", count);
+		}
+
 	}
 
 }

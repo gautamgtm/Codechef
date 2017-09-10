@@ -46,47 +46,23 @@ using namespace std;
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
 
-set<VI> mySet;
-
-void solve(VI A)
-{
-	int n=A.size();
-	for(int i=0; i<n-1; i++)
-	{
-		if(A[i] && A[i+1])
-		{
-			A[i]--; A[i+1]--;
-			if(i != n-2) A[i+2]++;
-			else A.push_back(1);
-
-			if(mySet.find(A) == mySet.end())
-			{
-				mySet.insert(A);
-				solve(A);
-			}
-
-			A[i]++; A[i+1]++;
-			if(n+1 == A.size()) A.pop_back();
-			else A[i+2]--;
-		}
-	}
-}
-
 int main()
 {
-	cin.sync_with_stdio(0);
-	int t;
-	scanf("%d", &t);
-	while(t--)
-	{
-		int n;
-		scanf("%d", &n);
-		VI A(n);
-		FOR(i,0,n-1) scanf("%d", &A[i]);
-		mySet.clear();
-		solve(A);
+  cin.sync_with_stdio(0);
+  int t;
+  scanf("%d", &t);
+  while(t--)
+  {
+    int n;
+    scanf("%d", &n);
+    LL A[n], P[n], S[n], minm=0;
+    FOR(i,0,n-1) scanf("%Ld", &A[i]);
+    P[0] = A[0]; S[n-1] = A[n-1];
+    FOR(i,1,n-1) P[i] = P[i-1] + A[i];
+    FORD(i,n-2,0) S[i] = S[i+1] + A[i];
+    FOR(i,1,n-1) if(P[i]+S[i] < P[minm]+S[minm]) minm = i;
 
-		printf("%d\n", (1+mySet.size())%MOD);
-	}
+    printf("%Ld\n", 1+minm);
+  }
 
 }

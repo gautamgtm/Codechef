@@ -46,47 +46,62 @@ using namespace std;
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
 
-set<VI> mySet;
+struct Ans{
+		int col,d,l,r;
+};
 
-void solve(VI A)
-{
-	int n=A.size();
-	for(int i=0; i<n-1; i++)
-	{
-		if(A[i] && A[i+1])
-		{
-			A[i]--; A[i+1]--;
-			if(i != n-2) A[i+2]++;
-			else A.push_back(1);
-
-			if(mySet.find(A) == mySet.end())
-			{
-				mySet.insert(A);
-				solve(A);
-			}
-
-			A[i]++; A[i+1]++;
-			if(n+1 == A.size()) A.pop_back();
-			else A[i+2]--;
-		}
+struct comp{
+	bool operator() (const Ans& a, const  Ans& b){
+		return a.d > b.d;
 	}
-}
+};
 
 int main()
 {
-	cin.sync_with_stdio(0);
+	//cin.sync_with_stdio(0);
 	int t;
 	scanf("%d", &t);
 	while(t--)
 	{
-		int n;
+		int n, dest=0, curr=0, count=0;
 		scanf("%d", &n);
-		VI A(n);
-		FOR(i,0,n-1) scanf("%d", &A[i]);
-		mySet.clear();
-		solve(A);
+		string str[n];
+		FOR(i,0,n-1) cin>>str[i];
+	 	VI countOne(n,0);
+		FOR(i,0,n-1) FOR(j,0,n-1) if(str[i][j] == '1') dest++;
 
-		printf("%d\n", (1+mySet.size())%MOD);
+		vector<Ans> v;
+		FOR(i,0,n-1)
+		{
+			int j=0;
+			while(j<n)
+			{
+				if(str[j][i] == '0') { j++; continue; }
+				int l=j;
+				while(j<n && str[j][i] == '1') j++;
+				Ans a;
+				a.col = i; a.l = l; a.r = j-1; a.d = (j-l);
+				v.push_back(a);
+			}
+		}
+		if(v.empty())
+		{
+			printf("0\n");
+			continue;
+		}
+
+		sort(v.begin(), v.end(), comp());
+
+		FOR(i,0,v.size()-1)
+		{
+			if(curr >= dest - 100) break;
+			curr += v[i].d;
+			count++;
+		}
+
+		printf("%d\n", count);
+		if(!count) continue;
+		FOR(i,0,count-1) printf("0 1 0 1 0 1 %d %d %d\n", 1+v[i].col, 1+v[i].l, 1+v[i].r);
 	}
 
 }

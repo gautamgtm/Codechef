@@ -46,47 +46,52 @@ using namespace std;
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
 
-set<VI> mySet;
+int t=0;
 
-void solve(VI A)
+void dfs(vector<VI> graph, vector<LL>& depth, vector<LL>& visited, int u)
 {
-	int n=A.size();
-	for(int i=0; i<n-1; i++)
-	{
-		if(A[i] && A[i+1])
-		{
-			A[i]--; A[i+1]--;
-			if(i != n-2) A[i+2]++;
-			else A.push_back(1);
-
-			if(mySet.find(A) == mySet.end())
-			{
-				mySet.insert(A);
-				solve(A);
-			}
-
-			A[i]++; A[i+1]++;
-			if(n+1 == A.size()) A.pop_back();
-			else A[i+2]--;
-		}
+	visited[u] = 1;
+	//st[u] = t++;
+	//B.PB(u);
+	//sz[u] = 1;
+	FIT(it, graph[u])
+	if(!visited[*it]){
+		depth[*it] = depth[u] + 1;
+		dfs(graph,depth,visited,*it);
+		//sz[u] += sz[*it];
 	}
 }
 
 int main()
 {
 	cin.sync_with_stdio(0);
-	int t;
-	scanf("%d", &t);
-	while(t--)
+	int n,q;
+	scanf("%d %d", &n, &q);
+	vector<VI> graph(n);
+	FOR(i,1,n-1)
 	{
-		int n;
-		scanf("%d", &n);
-		VI A(n);
-		FOR(i,0,n-1) scanf("%d", &A[i]);
-		mySet.clear();
-		solve(A);
+		int a,b;
+		scanf("%d %d", &a, &b);
+		graph[a].PB(b);
+		graph[b].PB(a);
+	}
+	vector<LL> A(n), depth(n,0), visited(n,0);//, B, st(n), sz(n),;
+	FOR(i,0,n-1) scanf("%Ld ", &A[i]);
 
-		printf("%d\n", (1+mySet.size())%MOD);
+	dfs(graph,depth,visited,0);
+
+	LL maxDepth=0;
+	FOR(i,0,n-1) maxDepth = max(maxDepth, depth[i]);
+	vector<LL> depthXor(maxDepth+1,0);
+	FOR(i,0,n-1) depthXor[depth[i]] ^= A[i];
+
+	FOR(i,0,q-1)
+	{
+		LL tm,ans=0;
+		scanf("%Ld", &tm);
+		tm--;
+		FOR(j,0,maxDepth) if((tm & j) == 0) ans ^= depthXor[j];
+		printf("%Ld\n", ans);
 	}
 
 }

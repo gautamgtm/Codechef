@@ -46,30 +46,29 @@ using namespace std;
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
 
-set<VI> mySet;
-
-void solve(VI A)
+bool isBipartite(vector<VI> graph, int u, VI& color)
 {
-	int n=A.size();
-	for(int i=0; i<n-1; i++)
+	color[u] = 1;
+	queue<int> q;
+	q.push(u);
+	while(!q.empty())
 	{
-		if(A[i] && A[i+1])
+		int t = q.front();
+		q.pop();
+
+		FIT(it, graph[t])
 		{
-			A[i]--; A[i+1]--;
-			if(i != n-2) A[i+2]++;
-			else A.push_back(1);
-
-			if(mySet.find(A) == mySet.end())
+			int v = *it;
+			if(color[v] == -1)
 			{
-				mySet.insert(A);
-				solve(A);
+				color[v] = 1 - color[t];
+				q.push(v);
 			}
-
-			A[i]++; A[i+1]++;
-			if(n+1 == A.size()) A.pop_back();
-			else A[i+2]--;
+			else
+			if(color[t] == color[v]) return 0;
 		}
 	}
+	return 1;
 }
 
 int main()
@@ -79,14 +78,57 @@ int main()
 	scanf("%d", &t);
 	while(t--)
 	{
-		int n;
-		scanf("%d", &n);
-		VI A(n);
-		FOR(i,0,n-1) scanf("%d", &A[i]);
-		mySet.clear();
-		solve(A);
+		int n,q,flag=1;
+		scanf("%d %d", &n, &q);
+		map<int,int> mp[n];
+		vector<VI> graph(n);
+		int vert=n;
+		FOR(i,0,q-1)
+		{
+			int a,b,c;
+			scanf("%d %d %d", &a, &b, &c);
+			a--; b--;
+			if(a>b) swap(a,b);
+			if(a==b)
+			{
+				if(c) flag=0;
+				continue;
+			}
+			if(mp[a].find(b) == mp[a].end())
+			{
+				mp[a][b] = c;
+				if(c)
+				{
+					graph[a].PB(b);
+					graph[b].PB(a);
+				}
+				else
+				{
+					graph[a].PB(vert);
+					graph[b].PB(vert++);
+					VI temp = {a,b};
+					graph.push_back(temp);
+				}
+			}
+			else if(mp[a][b] != c) flag=0;
+		}
+		if(!flag)
+		{
+			printf("no\n");
+			continue;
+		}
 
-		printf("%d\n", (1+mySet.size())%MOD);
+		VI color(vert,-1);
+		FOR(i,0,vert-1)
+		{
+			if(color[i] == -1)
+			{
+				if(isBipartite(graph,i,color) == 0) {flag = 0; break;}
+			}
+		}
+
+		if(flag) printf("yes\n");
+		else printf("no\n");
 	}
 
 }

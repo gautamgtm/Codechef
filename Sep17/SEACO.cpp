@@ -46,47 +46,54 @@ using namespace std;
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
 
-set<VI> mySet;
-
-void solve(VI A)
-{
-	int n=A.size();
-	for(int i=0; i<n-1; i++)
-	{
-		if(A[i] && A[i+1])
-		{
-			A[i]--; A[i+1]--;
-			if(i != n-2) A[i+2]++;
-			else A.push_back(1);
-
-			if(mySet.find(A) == mySet.end())
-			{
-				mySet.insert(A);
-				solve(A);
-			}
-
-			A[i]++; A[i+1]++;
-			if(n+1 == A.size()) A.pop_back();
-			else A[i+2]--;
-		}
-	}
-}
+struct query{
+  int l,r,type;
+};
 
 int main()
 {
-	cin.sync_with_stdio(0);
-	int t;
-	scanf("%d", &t);
-	while(t--)
-	{
-		int n;
-		scanf("%d", &n);
-		VI A(n);
-		FOR(i,0,n-1) scanf("%d", &A[i]);
-		mySet.clear();
-		solve(A);
+  cin.sync_with_stdio(0);
+  int t;
+  scanf("%d", &t);
+  while(t--)
+  {
+    int n,m,ans=0;
+    scanf("%d %d", &n, &m);
+    VI A(n+1,0), B(m,1);
+    query q[m];
+    FOR(i,0,m-1) scanf("%d %d %d", &q[i].type, &q[i].l, &q[i].r);
 
-		printf("%d\n", (1+mySet.size())%MOD);
-	}
+    FORD(i,m-1,0)
+    {
+      if(q[i].type == 2)
+      {
+        FOR(j,q[i].l-1,q[i].r-1)
+        {
+          B[j] += B[i];
+          if(B[j] >= MOD) B[j] -= MOD;
+        }
+      }
+    }
+
+    FOR(i,0,m-1)
+    {
+      if(q[i].type == 1)
+      {
+        A[q[i].l - 1] += B[i];
+        if(A[q[i].l - 1] >= MOD) A[q[i].l - 1] -= MOD;
+
+        if(A[q[i].r] >= B[i]) A[q[i].r] -= B[i];
+        else A[q[i].r] = A[q[i].r] + MOD - B[i];
+      }
+    }
+
+    FOR(i,0,n-1)
+    {
+      ans += A[i];
+      if(ans >= MOD) ans -= MOD;
+      printf("%d ", ans);
+    }
+    printf("\n");
+  }
 
 }

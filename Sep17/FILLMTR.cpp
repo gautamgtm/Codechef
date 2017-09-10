@@ -7,7 +7,7 @@
 #include <string>
 #include <cstring>
 #include <set>
-#include <map>
+#include <unordered_map>
 #include <queue>
 #include <stack>
 #include <list>
@@ -46,32 +46,6 @@ using namespace std;
 #define MOD 1000000007
 #define INF INT_MAX //Infinity
 
-set<VI> mySet;
-
-void solve(VI A)
-{
-	int n=A.size();
-	for(int i=0; i<n-1; i++)
-	{
-		if(A[i] && A[i+1])
-		{
-			A[i]--; A[i+1]--;
-			if(i != n-2) A[i+2]++;
-			else A.push_back(1);
-
-			if(mySet.find(A) == mySet.end())
-			{
-				mySet.insert(A);
-				solve(A);
-			}
-
-			A[i]++; A[i+1]++;
-			if(n+1 == A.size()) A.pop_back();
-			else A[i+2]--;
-		}
-	}
-}
-
 int main()
 {
 	cin.sync_with_stdio(0);
@@ -79,14 +53,55 @@ int main()
 	scanf("%d", &t);
 	while(t--)
 	{
-		int n;
-		scanf("%d", &n);
-		VI A(n);
-		FOR(i,0,n-1) scanf("%d", &A[i]);
-		mySet.clear();
-		solve(A);
+		int n,q, flag=1;
+		scanf("%d %d", &n, &q);
+		unordered_map<int, int> mp[n];
+		FOR(i,0,q-1)
+		{
+			int a,b,c;
+			scanf("%d %d %d", &a, &b, &c);
+			a--; b--;
+			if(a>b) swap(a,b);
+			if(a==b)
+			{
+				if(c) flag=0;
+				continue;
+			}
+			if(mp[a].find(b) == mp[a].end()) mp[a][b] = c;
+			else if(mp[a][b] != c) flag=0;
+		}
+		if(!flag)
+		{
+			printf("no\n");
+			continue;
+		}
 
-		printf("%d\n", (1+mySet.size())%MOD);
+		FOR(i,0,n-1)
+		{
+			FIT(it,mp[i])
+			{
+				for(auto itt=it; itt!=mp[i].end(); itt++)
+				{
+					if(it==itt) continue;
+					int a = it->first, b = itt->first;
+					int c = it->second, d = itt->second;
+					if(a>b) swap(a,b);
+					if(mp[a].find(b) != mp[a].end())
+					{
+						if(mp[a][b] != c^d)
+						{
+							flag=0;
+							break;
+						}
+					}
+				}
+				if(!flag) break;
+			}
+			if(!flag) break;
+		}
+
+		if(flag) printf("yes\n");
+		else printf("no\n");
 	}
 
 }
